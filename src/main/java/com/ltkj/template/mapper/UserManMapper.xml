@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltkj.template.mapper.UserManMapper">
+	 <select id="findByUsername" resultType="com.ltkj.template.model.User" parameterType="com.ltkj.template.model.User" useCache="true">  
+        select * from [user] where username = #{username}
+     </select>
+     
+     <select id="findAll" resultType="com.ltkj.template.model.User" useCache="true">
+        select * from [user]
+    </select>
+    
+    <insert id = "insert" parameterType="com.ltkj.template.model.User" flushCache="true">
+    	insert into [user](id,username,password,email,lastPasswordResetDate) values (#{id},#{username},#{password},#{email},GETDATE())
+    </insert>
+    
+    <select id="findRolesByUserID" resultType="java.lang.String" parameterType="com.ltkj.template.model.User" useCache="true">
+        select 
+        	tb2.role 
+        from 
+        	[user] tb0 inner join rolemanagement tb1
+        	on tb0.id = tb1.user_id
+        	inner join [role] tb2
+        	on tb1.role_id = tb2.id
+        where tb0.id = #{id}
+    </select>
+    
+    <select id="getUserInfo" resultType="com.ltkj.template.model.User" parameterType="com.ltkj.template.model.User" useCache="true">
+        select * from [user] u
+        where u.username = #{username}
+    </select>
+</mapper>

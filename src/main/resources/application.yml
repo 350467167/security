@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    #driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver 
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  type-aliases-package: com.ltkj.template.model
+  
+logging:
+  file: ../security_jwt_log
+  level: 
+    java.sql: DEBUG
+    com.example: DEBUG
+    org.springframework:
+      data: DEBUG
+      security: DEBUG
+    com.ltkj.template.mapper: DEBUG
+
+# JWT
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 86400
+  tokenHead: "Bearer"
+  route:
+    authentication:
+      path: api/auth/login
+      refresh: refresh
+      register: api/auth/register
+      

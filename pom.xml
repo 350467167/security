@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>security-jwt-temp</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.8.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+	   <!-- security -->
+	    <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>	
+ 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- web服务 -->
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- 热部署 -->
+ 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+        <!-- DB -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>mssql-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.19</version>
+		</dependency>
+		<!-- jwt -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.7.0</version>
+		</dependency>
+		<!-- 数据基础包 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.4</version>
+		</dependency>
+		<!-- 使用注解简化bean工具包 -->
+		<dependency>  
+		      <groupId>org.projectlombok</groupId>  
+		      <artifactId>lombok</artifactId>  
+		</dependency>
+		<dependency>  
+			<groupId>net.sf.json-lib</groupId>  
+			<artifactId>json-lib</artifactId>  
+			<version>2.4</version>  
+			<classifier>jdk15</classifier><!--指定jdk版本-->  
+		</dependency> 
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-rest -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
+	    <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka -->
+		<dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-couchbase</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement> 
+			<plugins>		   
+				<plugin>
+			        <groupId>org.mybatis.generator</groupId>
+		               <artifactId>mybatis-generator-maven-plugin</artifactId>
+		               <version>1.3.2</version>
+		               <executions>
+		                   <execution>
+		                       <id>Generate MyBatis Artifacts</id>
+		                       <goals>
+		                           <goal>generate</goal>
+		                       </goals>
+		                   </execution>
+		               </executions>
+		               <configuration>
+		                   <!-- generator 工具配置文件的位置 -->
+		                   <configurationFile>src/main/resources/mybatis-generator/generatorConfig.xml</configurationFile>
+		                   <verbose>true</verbose>
+		                   <overwrite>true</overwrite>
+		               </configuration>
+		               <dependencies>
+		                    <dependency>
+		                        <groupId>mysql</groupId>
+		                        <artifactId>mysql-connector-java</artifactId>
+		                        <version>5.1.34</version>
+		                    </dependency>
+		                    <dependency>
+		                        <groupId>org.mybatis.generator</groupId>
+		                        <artifactId>mybatis-generator-core</artifactId>
+		                        <version>1.3.2</version>
+		                    </dependency>
+		               </dependencies>
+		      	</plugin>
+			
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<resources>			
+	      <resource>			
+	        <directory>src/main/java</directory>			
+	        <includes>			
+	          <include>**/*.xml</include>			
+	        </includes>			
+	      </resource>			
+	      <resource>			
+	        <directory>src/main/resources</directory>			
+	      </resource>			
+	    </resources>
+	</build>
+
+
+</project>
