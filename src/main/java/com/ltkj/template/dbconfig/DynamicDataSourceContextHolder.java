@@ -4,18 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.stereotype.Component;
 
 @Component
 public class DynamicDataSourceContextHolder {
-	@PostConstruct
-	public void init() {
-		contextHolder.set("dataSource");
-		autoCommit.set(true);
-	}
-
 	public static List<String> dataSourceConnections = new ArrayList<String>();
 
 	private static final ThreadLocal<Boolean> autoCommit = new ThreadLocal<Boolean>();
@@ -27,6 +19,9 @@ public class DynamicDataSourceContextHolder {
 	}
 
 	public static String getDataSourceConnection() {
+		if (contextHolder.get() == null) {
+			contextHolder.set("dataSource");
+		}
 		return contextHolder.get();
 	}
 
@@ -56,6 +51,9 @@ public class DynamicDataSourceContextHolder {
 	}
 
 	public static Boolean getAutoCommit() {
+		if (autoCommit.get() == null) {
+			autoCommit.set(true);
+		}
 		return autoCommit.get();
 	}
 
