@@ -8,29 +8,38 @@ import java.lang.annotation.Target;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect
-@Order(-10)
 @Component
 public class DynamicDataSourceAspect {
+	@Autowired
+	DynamicLoadBean dynamicLoadBean;
+
 	@Target({ ElementType.METHOD, ElementType.TYPE })
 	@Retention(RetentionPolicy.RUNTIME)
 	@Documented
 	public @interface TargetDataSource {
 	}
 
-	@Autowired
-	DynamicLoadBean dynamicLoadBean;
+	@Target({ ElementType.METHOD, ElementType.TYPE })
+	@Retention(RetentionPolicy.RUNTIME)
+	@Documented
+	public @interface TranExtend {
+	}
 
 	@Pointcut("@annotation(com.ltkj.template.dbconfig.DynamicDataSourceAspect.TargetDataSource)")
 	public void controllerAspect() {
+	}
+
+	@Pointcut("@annotation(com.ltkj.template.dbconfig.DynamicDataSourceAspect.TranExtend)")
+	public void tansationalExtendAspect() {
 	}
 
 	@Before("controllerAspect()")
@@ -38,7 +47,6 @@ public class DynamicDataSourceAspect {
 		String dataSourceConnection = (String) point.getArgs()[0];
 
 		if (!DynamicDataSourceContextHolder.containsDataSource(dataSourceConnection)) {
-			System.err.println("******registBean*******");
 			dynamicLoadBean.registBean(dataSourceConnection);
 		}
 
@@ -50,9 +58,21 @@ public class DynamicDataSourceAspect {
 		DynamicDataSourceContextHolder.clearDataSourceConnection();
 	}
 
-	@AfterThrowing(pointcut = "controllerAspect()", throwing = "e")
+	@Before("tansationalExtendAspect()")
+	public void beforeTansationalExtendAspect(JoinPoint point) {
+		DynamicDataSourceContextHolder.stopAutoCommit();
+	}
+
+	@AfterReturning("tansationalExtendAspect()")
+	public void afterTansationalExtendAspect(JoinPoint point) {
+		DynamicDataSourceContextHolder.clearDataSourceConnection();
+		DynamicDataSourceContextHolder.commit();
+	}
+
+	@AfterThrowing(pointcut = "tansationalExtendAspect()", throwing = "e")
 	public void throwException(JoinPoint point, Throwable e) {
-		System.out.println("目标方法中抛出的异常:" + e);
-		System.out.println("模拟抛出异常后的增强处理...");
+		DynamicDataSourceContextHolder.rollback();
+		System.err.println("目标方法中抛出的异常:" + e);
+		System.err.println("模拟抛出异常后的增强处理...");
 	}
 }

@@ -13,12 +13,7 @@ import org.apache.ibatis.transaction.Transaction;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
-import com.alibaba.druid.support.logging.Log;
-import com.alibaba.druid.support.logging.LogFactory;
-
-public class MultiDataSourceTransaction implements Transaction {
-	private static final Log LOGGER = LogFactory.getLog(MultiDataSourceTransaction.class);
-
+public class DynamicDataSourceTransaction implements Transaction {
 	private final DataSource dataSource;
 
 	private Connection mainConnection;
@@ -27,11 +22,9 @@ public class MultiDataSourceTransaction implements Transaction {
 
 	private ConcurrentMap<String, Connection> otherConnectionMap;
 
-	private boolean isConnectionTransactional;
-
 	private boolean autoCommit;
 
-	public MultiDataSourceTransaction(DataSource dataSource) {
+	public DynamicDataSourceTransaction(DataSource dataSource) {
 		notNull(dataSource, "No DataSource specified");
 		this.dataSource = dataSource;
 		otherConnectionMap = new ConcurrentHashMap<>();
@@ -40,18 +33,19 @@ public class MultiDataSourceTransaction implements Transaction {
 
 	@Override
 	public Connection getConnection() throws SQLException {
+		DynamicDataSourceContextHolder.setDynamicDataSourceTransaction(this);
 		String connection = DynamicDataSourceContextHolder.getDataSourceConnection();
 		if (mainDatabaseIdentification.equals(connection)) {
-			if (mainConnection != null)
-				return mainConnection;
-			else {
+			if (mainConnection == null) {
 				openMainConnection();
-				return mainConnection;
 			}
+			mainConnection.setAutoCommit(this.autoCommit);
+			return mainConnection;
 		} else {
 			if (!otherConnectionMap.containsKey(connection)) {
 				try {
 					Connection conn = dataSource.getConnection();
+					conn.setAutoCommit(this.autoCommit);
 					otherConnectionMap.put(connection, conn);
 				} catch (SQLException ex) {
 					throw new CannotGetJdbcConnectionException("Could not get JDBC Connection", ex);
@@ -64,44 +58,36 @@ public class MultiDataSourceTransaction implements Transaction {
 
 	private void openMainConnection() throws SQLException {
 		this.mainConnection = DataSourceUtils.getConnection(this.dataSource);
-		this.autoCommit = this.mainConnection.getAutoCommit();
-		this.isConnectionTransactional = DataSourceUtils.isConnectionTransactional(this.mainConnection,
-				this.dataSource);
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("JDBC Connection [" + this.mainConnection + "] will"
-					+ (this.isConnectionTransactional ? " " : " not ") + "be managed by Spring");
-		}
+		this.autoCommit = DynamicDataSourceContextHolder.getAutoCommit();
 	}
 
 	@Override
 	public void commit() throws SQLException {
-		if (this.mainConnection != null && !this.isConnectionTransactional && !this.autoCommit) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Committing JDBC Connection [" + this.mainConnection + "]");
-			}
-			this.mainConnection.commit();
-			for (Connection connection : otherConnectionMap.values()) {
-				connection.commit();
-			}
-		}
 	}
 
 	@Override
 	public void rollback() throws SQLException {
-		if (this.mainConnection != null && !this.isConnectionTransactional && !this.autoCommit) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Rolling back JDBC Connection [" + this.mainConnection + "]");
-			}
-			this.mainConnection.rollback();
-			for (Connection connection : otherConnectionMap.values()) {
-				connection.rollback();
-			}
-		}
 	}
 
 	@Override
 	public void close() throws SQLException {
+	}
+
+	public void commitAll() throws SQLException {
+		this.mainConnection.commit();
+		for (Connection connection : otherConnectionMap.values()) {
+			connection.commit();
+		}
+	}
+
+	public void rollbackAll() throws SQLException {
+		this.mainConnection.rollback();
+		for (Connection connection : otherConnectionMap.values()) {
+			connection.rollback();
+		}
+	}
+
+	public void closeAll() throws SQLException {
 		DataSourceUtils.releaseConnection(this.mainConnection, this.dataSource);
 		for (Connection connection : otherConnectionMap.values()) {
 			DataSourceUtils.releaseConnection(connection, this.dataSource);

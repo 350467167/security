@@ -1,7 +1,5 @@
 package com.ltkj.template;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -10,16 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ltkj.template.dbconfig.DynamicDataSourceRegister;
 import com.ltkj.template.dbconfig.DynamicLoadBean;
-import com.ltkj.template.dbconfig.MultiDataSourceTransactionFactory;
-import com.ltkj.template.model.User;
 import com.ltkj.template.service.transactionalService.UserServiceTran;
 
 @EnableTransactionManagement
-@Import({ DynamicDataSourceRegister.class, MultiDataSourceTransactionFactory.class })
+@Import({ DynamicDataSourceRegister.class })
 @MapperScan("com.ltkj.template.mapper")
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,13 +34,20 @@ public class SecyrityJwtTempApplicationTests {
 		String ds = "{\"driverClassName\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\", \"type\": \"com.alibaba.druid.pool.DruidDataSource\","
 				+ "\"url\":\"jdbc:sqlserver://127.0.0.1:1433;DatabaseName=user_db2\",\"username\":\"root2\", \"password\":\"root2\"}";
 
-		User user = new User();
-		user.setEmail("123xxx");
-		user.setId("123456789");
-		user.setPassword("111");
-		user.setUsername("cccc");
+		try {
+			userServiceTran.insertTranExtend(ds);
+		} catch (Exception e) {
+		}
 
-		userServiceTran.insert(ds, user);
+		try {
+			userServiceTran.insertTranExtendWithoutError(ds);
+		} catch (Exception e) {
+		}
+
+		try {
+			userServiceTran.insertWithoutTranExtend(ds);
+		} catch (Exception e) {
+		}
 
 	}
 

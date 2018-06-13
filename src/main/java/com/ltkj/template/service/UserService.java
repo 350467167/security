@@ -38,8 +38,8 @@ public class UserService {
 		return null;
 	}
 
-	public User save(User updatedUser) {
-		return null;
+	public void save(User updatedUser) {
+		userMapper.save(updatedUser);
 	}
 
 	public void delete(String id) {

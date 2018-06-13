@@ -13,6 +13,10 @@
     	insert into [user](id,username,password,email,lastPasswordResetDate) values (#{id},#{username},#{password},#{email},GETDATE())
     </insert>
     
+    <insert id = "save" parameterType="com.ltkj.template.model.User" flushCache="true">
+    	update [user] set username = #{username} where id = #{id}
+    </insert>
+    
     <select id="findRolesByUserID" resultType="java.lang.String" parameterType="com.ltkj.template.model.User" useCache="true">
         select 
         	tb2.role 

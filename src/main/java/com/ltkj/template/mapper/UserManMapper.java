@@ -16,6 +16,8 @@ public interface UserManMapper {
 
 	public void insert(User user);
 
+	public void save(User user);
+
 	public List<String> findRolesByUserID(String userId);
 
 	public List<User> findAll();
