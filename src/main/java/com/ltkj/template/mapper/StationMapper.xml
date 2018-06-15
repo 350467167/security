@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltkj.template.mapper.StationMapper">
+  <resultMap id="BaseResultMap" type="com.ltkj.template.model.Station">
+    <id column="STATION_ID" jdbcType="INTEGER" property="stationId" />
+    <result column="STATION_NAME" jdbcType="VARCHAR" property="stationName" />
+    <result column="SIMPLE_NAME" jdbcType="VARCHAR" property="simpleName" />
+    <result column="IS_VISIBLE" jdbcType="INTEGER" property="isVisible" />
+    <result column="INIT_FLAG" jdbcType="INTEGER" property="initFlag" />
+    <result column="STATION_SMALL_PICTURE" jdbcType="VARCHAR" property="stationSmallPicture" />
+    <result column="STATION_MIDDLE_PICTURE" jdbcType="VARCHAR" property="stationMiddlePicture" />
+    <result column="STATION_LARGE_PICTURE" jdbcType="VARCHAR" property="stationLargePicture" />
+    <result column="STATION_CODE" jdbcType="VARCHAR" property="stationCode" />
+    <result column="STATION_INDEX" jdbcType="INTEGER" property="stationIndex" />
+    <result column="STATION_PROVINCE" jdbcType="INTEGER" property="stationProvince" />
+    <result column="STATION_LONGITUDE" jdbcType="DOUBLE" property="stationLongitude" />
+    <result column="STATION_LATITUDE" jdbcType="DOUBLE" property="stationLatitude" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ltkj.template.model.Station">
+    <result column="STATION_INTRODUCE" jdbcType="LONGVARCHAR" property="stationIntroduce" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    STATION_ID, STATION_NAME, SIMPLE_NAME, IS_VISIBLE, INIT_FLAG, STATION_SMALL_PICTURE, 
+    STATION_MIDDLE_PICTURE, STATION_LARGE_PICTURE, STATION_CODE, STATION_INDEX, STATION_PROVINCE, 
+    STATION_LONGITUDE, STATION_LATITUDE
+  </sql>
+  <sql id="Blob_Column_List">
+    STATION_INTRODUCE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from STATION
+    where STATION_ID = #{stationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from STATION
+    where STATION_ID = #{stationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ltkj.template.model.Station">
+    insert into STATION (STATION_ID, STATION_NAME, SIMPLE_NAME, 
+      IS_VISIBLE, INIT_FLAG, STATION_SMALL_PICTURE, 
+      STATION_MIDDLE_PICTURE, STATION_LARGE_PICTURE, 
+      STATION_CODE, STATION_INDEX, STATION_PROVINCE, 
+      STATION_LONGITUDE, STATION_LATITUDE, STATION_INTRODUCE
+      )
+    values (#{stationId,jdbcType=INTEGER}, #{stationName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, 
+      #{isVisible,jdbcType=INTEGER}, #{initFlag,jdbcType=INTEGER}, #{stationSmallPicture,jdbcType=VARCHAR}, 
+      #{stationMiddlePicture,jdbcType=VARCHAR}, #{stationLargePicture,jdbcType=VARCHAR}, 
+      #{stationCode,jdbcType=VARCHAR}, #{stationIndex,jdbcType=INTEGER}, #{stationProvince,jdbcType=INTEGER}, 
+      #{stationLongitude,jdbcType=DOUBLE}, #{stationLatitude,jdbcType=DOUBLE}, #{stationIntroduce,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ltkj.template.model.Station">
+    insert into STATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stationId != null">
+        STATION_ID,
+      </if>
+      <if test="stationName != null">
+        STATION_NAME,
+      </if>
+      <if test="simpleName != null">
+        SIMPLE_NAME,
+      </if>
+      <if test="isVisible != null">
+        IS_VISIBLE,
+      </if>
+      <if test="initFlag != null">
+        INIT_FLAG,
+      </if>
+      <if test="stationSmallPicture != null">
+        STATION_SMALL_PICTURE,
+      </if>
+      <if test="stationMiddlePicture != null">
+        STATION_MIDDLE_PICTURE,
+      </if>
+      <if test="stationLargePicture != null">
+        STATION_LARGE_PICTURE,
+      </if>
+      <if test="stationCode != null">
+        STATION_CODE,
+      </if>
+      <if test="stationIndex != null">
+        STATION_INDEX,
+      </if>
+      <if test="stationProvince != null">
+        STATION_PROVINCE,
+      </if>
+      <if test="stationLongitude != null">
+        STATION_LONGITUDE,
+      </if>
+      <if test="stationLatitude != null">
+        STATION_LATITUDE,
+      </if>
+      <if test="stationIntroduce != null">
+        STATION_INTRODUCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stationId != null">
+        #{stationId,jdbcType=INTEGER},
+      </if>
+      <if test="stationName != null">
+        #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleName != null">
+        #{simpleName,jdbcType=VARCHAR},
+      </if>
+      <if test="isVisible != null">
+        #{isVisible,jdbcType=INTEGER},
+      </if>
+      <if test="initFlag != null">
+        #{initFlag,jdbcType=INTEGER},
+      </if>
+      <if test="stationSmallPicture != null">
+        #{stationSmallPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="stationMiddlePicture != null">
+        #{stationMiddlePicture,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLargePicture != null">
+        #{stationLargePicture,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null">
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationIndex != null">
+        #{stationIndex,jdbcType=INTEGER},
+      </if>
+      <if test="stationProvince != null">
+        #{stationProvince,jdbcType=INTEGER},
+      </if>
+      <if test="stationLongitude != null">
+        #{stationLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="stationLatitude != null">
+        #{stationLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="stationIntroduce != null">
+        #{stationIntroduce,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ltkj.template.model.Station">
+    update STATION
+    <set>
+      <if test="stationName != null">
+        STATION_NAME = #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleName != null">
+        SIMPLE_NAME = #{simpleName,jdbcType=VARCHAR},
+      </if>
+      <if test="isVisible != null">
+        IS_VISIBLE = #{isVisible,jdbcType=INTEGER},
+      </if>
+      <if test="initFlag != null">
+        INIT_FLAG = #{initFlag,jdbcType=INTEGER},
+      </if>
+      <if test="stationSmallPicture != null">
+        STATION_SMALL_PICTURE = #{stationSmallPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="stationMiddlePicture != null">
+        STATION_MIDDLE_PICTURE = #{stationMiddlePicture,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLargePicture != null">
+        STATION_LARGE_PICTURE = #{stationLargePicture,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null">
+        STATION_CODE = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationIndex != null">
+        STATION_INDEX = #{stationIndex,jdbcType=INTEGER},
+      </if>
+      <if test="stationProvince != null">
+        STATION_PROVINCE = #{stationProvince,jdbcType=INTEGER},
+      </if>
+      <if test="stationLongitude != null">
+        STATION_LONGITUDE = #{stationLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="stationLatitude != null">
+        STATION_LATITUDE = #{stationLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="stationIntroduce != null">
+        STATION_INTRODUCE = #{stationIntroduce,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where STATION_ID = #{stationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ltkj.template.model.Station">
+    update STATION
+    set STATION_NAME = #{stationName,jdbcType=VARCHAR},
+      SIMPLE_NAME = #{simpleName,jdbcType=VARCHAR},
+      IS_VISIBLE = #{isVisible,jdbcType=INTEGER},
+      INIT_FLAG = #{initFlag,jdbcType=INTEGER},
+      STATION_SMALL_PICTURE = #{stationSmallPicture,jdbcType=VARCHAR},
+      STATION_MIDDLE_PICTURE = #{stationMiddlePicture,jdbcType=VARCHAR},
+      STATION_LARGE_PICTURE = #{stationLargePicture,jdbcType=VARCHAR},
+      STATION_CODE = #{stationCode,jdbcType=VARCHAR},
+      STATION_INDEX = #{stationIndex,jdbcType=INTEGER},
+      STATION_PROVINCE = #{stationProvince,jdbcType=INTEGER},
+      STATION_LONGITUDE = #{stationLongitude,jdbcType=DOUBLE},
+      STATION_LATITUDE = #{stationLatitude,jdbcType=DOUBLE},
+      STATION_INTRODUCE = #{stationIntroduce,jdbcType=LONGVARCHAR}
+    where STATION_ID = #{stationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ltkj.template.model.Station">
+    update STATION
+    set STATION_NAME = #{stationName,jdbcType=VARCHAR},
+      SIMPLE_NAME = #{simpleName,jdbcType=VARCHAR},
+      IS_VISIBLE = #{isVisible,jdbcType=INTEGER},
+      INIT_FLAG = #{initFlag,jdbcType=INTEGER},
+      STATION_SMALL_PICTURE = #{stationSmallPicture,jdbcType=VARCHAR},
+      STATION_MIDDLE_PICTURE = #{stationMiddlePicture,jdbcType=VARCHAR},
+      STATION_LARGE_PICTURE = #{stationLargePicture,jdbcType=VARCHAR},
+      STATION_CODE = #{stationCode,jdbcType=VARCHAR},
+      STATION_INDEX = #{stationIndex,jdbcType=INTEGER},
+      STATION_PROVINCE = #{stationProvince,jdbcType=INTEGER},
+      STATION_LONGITUDE = #{stationLongitude,jdbcType=DOUBLE},
+      STATION_LATITUDE = #{stationLatitude,jdbcType=DOUBLE}
+    where STATION_ID = #{stationId,jdbcType=INTEGER}
+  </update>
+  
+    
+  <select id="selectStationListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	SELECT
+		<include refid="Base_Column_List" />
+	FROM
+		(
+			SELECT
+				ST.*
+			FROM
+				STATION ST
+			INNER JOIN USER_STATION_GROUP GR ON GR.USERID = #{userId}
+			AND ST.station_id = GR.station_id
+		) t
+  </select>
+  
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	SELECT
+		<include refid="Base_Column_List" />
+	FROM
+		STATION
+  </select>
+</mapper>

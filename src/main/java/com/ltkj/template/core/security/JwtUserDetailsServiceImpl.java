@@ -13,6 +13,7 @@ import com.ltkj.template.model.User;
 
 /**
  * 实现获取用户权限和角色
+ * 
  * @author zwy
  *
  */
@@ -20,17 +21,17 @@ import com.ltkj.template.model.User;
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-    private UserManMapper userMapper;
-	
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.findByUsername(username);
+	private UserManMapper userMapper;
 
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
-        } else {
-        	List<String> roles = userMapper.findRolesByUserID(user.getId());
-            return JwtUserFactory.create(user , roles);
-        }
-    }
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userMapper.findByUsername(username);
+
+		if (user == null) {
+			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+		} else {
+			List<String> roles = userMapper.findRolesByUserID(user.getId());
+			return JwtUserFactory.create(user, roles);
+		}
+	}
 }

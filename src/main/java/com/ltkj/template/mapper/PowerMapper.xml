@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltkj.template.mapper.PowerMapper">
+  <resultMap id="BaseResultMap" type="com.ltkj.template.model.Power">
+    <id column="POWER_ID" jdbcType="INTEGER" property="powerId" />
+    <id column="STATION_ID" jdbcType="INTEGER" property="stationId" />
+    <result column="POWER_NAME" jdbcType="VARCHAR" property="powerName" />
+    <result column="POWER_STATUS" jdbcType="INTEGER" property="powerStatus" />
+    <result column="POWER_TYPE" jdbcType="INTEGER" property="powerType" />
+    <result column="POWER_REMARK" jdbcType="VARCHAR" property="powerRemark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    POWER_ID, STATION_ID, POWER_NAME, POWER_STATUS, POWER_TYPE, POWER_REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.ltkj.template.model.PowerKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_POWER
+    where POWER_ID = #{powerId,jdbcType=INTEGER}
+      and STATION_ID = #{stationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ltkj.template.model.PowerKey">
+    delete from SYS_POWER
+    where POWER_ID = #{powerId,jdbcType=INTEGER}
+      and STATION_ID = #{stationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ltkj.template.model.Power">
+    insert into SYS_POWER (POWER_ID, STATION_ID, POWER_NAME, 
+      POWER_STATUS, POWER_TYPE, POWER_REMARK
+      )
+    values (#{powerId,jdbcType=INTEGER}, #{stationId,jdbcType=INTEGER}, #{powerName,jdbcType=VARCHAR}, 
+      #{powerStatus,jdbcType=INTEGER}, #{powerType,jdbcType=INTEGER}, #{powerRemark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ltkj.template.model.Power">
+    insert into SYS_POWER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="powerId != null">
+        POWER_ID,
+      </if>
+      <if test="stationId != null">
+        STATION_ID,
+      </if>
+      <if test="powerName != null">
+        POWER_NAME,
+      </if>
+      <if test="powerStatus != null">
+        POWER_STATUS,
+      </if>
+      <if test="powerType != null">
+        POWER_TYPE,
+      </if>
+      <if test="powerRemark != null">
+        POWER_REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="powerId != null">
+        #{powerId,jdbcType=INTEGER},
+      </if>
+      <if test="stationId != null">
+        #{stationId,jdbcType=INTEGER},
+      </if>
+      <if test="powerName != null">
+        #{powerName,jdbcType=VARCHAR},
+      </if>
+      <if test="powerStatus != null">
+        #{powerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="powerType != null">
+        #{powerType,jdbcType=INTEGER},
+      </if>
+      <if test="powerRemark != null">
+        #{powerRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ltkj.template.model.Power">
+    update SYS_POWER
+    <set>
+      <if test="powerName != null">
+        POWER_NAME = #{powerName,jdbcType=VARCHAR},
+      </if>
+      <if test="powerStatus != null">
+        POWER_STATUS = #{powerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="powerType != null">
+        POWER_TYPE = #{powerType,jdbcType=INTEGER},
+      </if>
+      <if test="powerRemark != null">
+        POWER_REMARK = #{powerRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where POWER_ID = #{powerId,jdbcType=INTEGER}
+      and STATION_ID = #{stationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ltkj.template.model.Power">
+    update SYS_POWER
+    set POWER_NAME = #{powerName,jdbcType=VARCHAR},
+      POWER_STATUS = #{powerStatus,jdbcType=INTEGER},
+      POWER_TYPE = #{powerType,jdbcType=INTEGER},
+      POWER_REMARK = #{powerRemark,jdbcType=VARCHAR}
+    where POWER_ID = #{powerId,jdbcType=INTEGER}
+      and STATION_ID = #{stationId,jdbcType=INTEGER}
+  </update>
+</mapper>

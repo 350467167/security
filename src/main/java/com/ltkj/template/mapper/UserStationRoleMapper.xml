@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltkj.template.mapper.UserStationRoleMapper">
+  <resultMap id="BaseResultMap" type="com.ltkj.template.model.UserStationRole">
+    <result column="SYS_USER_ID" jdbcType="INTEGER" property="sysUserId" />
+    <result column="STATION_ID" jdbcType="INTEGER" property="stationId" />
+    <result column="ROLE_ID" jdbcType="INTEGER" property="roleId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.ltkj.template.model.UserStationRole">
+    insert into SYS_USER_STATION_ROLE (SYS_USER_ID, STATION_ID, ROLE_ID
+      )
+    values (#{sysUserId,jdbcType=INTEGER}, #{stationId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ltkj.template.model.UserStationRole">
+    insert into SYS_USER_STATION_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sysUserId != null">
+        SYS_USER_ID,
+      </if>
+      <if test="stationId != null">
+        STATION_ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sysUserId != null">
+        #{sysUserId,jdbcType=INTEGER},
+      </if>
+      <if test="stationId != null">
+        #{stationId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+	<select id="selectByUserId" resultType="com.ltkj.template.modelPage.UserStationRoleInfo" parameterType="java.lang.Integer">
+	      SELECT
+			A.ROLE_ID roleId,
+			C.ROLE_NAME roleName,
+			A.STATION_ID stationId,
+			B.STATION_NAME stationName
+		FROM
+			SYS_USER_STATION_ROLE A
+		INNER JOIN STATION B ON A.sys_user_id = #{userId}
+		AND A.STATION_ID = B.STATION_ID
+		INNER JOIN SYS_ROLE C ON A.ROLE_ID = C.ROLE_ID
+	</select>
+	
+	<select id="deleteByUserId" parameterType="java.lang.Integer">
+	      DELETE
+		  FROM
+				SYS_USER_STATION_ROLE
+		  WHERE
+				sys_user_id = #{userId}
+	</select>
+</mapper>

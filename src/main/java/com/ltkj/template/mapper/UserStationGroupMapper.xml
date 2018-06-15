@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltkj.template.mapper.UserStationGroupMapper">
+  <resultMap id="BaseResultMap" type="com.ltkj.template.model.UserStationGroup">
+    <result column="ID" jdbcType="INTEGER" property="id" />
+    <result column="USERID" jdbcType="INTEGER" property="userid" />
+    <result column="STATION_ID" jdbcType="INTEGER" property="stationId" />
+    <result column="GROUPTYPE" jdbcType="INTEGER" property="grouptype" />
+    <result column="GROUPNAME" jdbcType="VARCHAR" property="groupname" />
+    <result column="ADDTIME" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <insert id="insert" parameterType="com.ltkj.template.model.UserStationGroup">
+    insert into USER_STATION_GROUP (ID, USERID, STATION_ID, 
+      GROUPTYPE, GROUPNAME, ADDTIME
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{stationId,jdbcType=INTEGER}, 
+      #{grouptype,jdbcType=INTEGER}, #{groupname,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ltkj.template.model.UserStationGroup">
+    insert into USER_STATION_GROUP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="userid != null">
+        USERID,
+      </if>
+      <if test="stationId != null">
+        STATION_ID,
+      </if>
+      <if test="grouptype != null">
+        GROUPTYPE,
+      </if>
+      <if test="groupname != null">
+        GROUPNAME,
+      </if>
+      <if test="addtime != null">
+        ADDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="stationId != null">
+        #{stationId,jdbcType=INTEGER},
+      </if>
+      <if test="grouptype != null">
+        #{grouptype,jdbcType=INTEGER},
+      </if>
+      <if test="groupname != null">
+        #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltkj.template.mapper.RolePowerMapper">
+  <resultMap id="BaseResultMap" type="com.ltkj.template.model.RolePowerKey">
+    <id column="ROLE_ID" jdbcType="INTEGER" property="roleId" />
+    <id column="POWER_ID" jdbcType="INTEGER" property="powerId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.ltkj.template.model.RolePowerKey">
+    delete from SYS_ROLE_POWER
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+      and POWER_ID = #{powerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ltkj.template.model.RolePowerKey">
+    insert into SYS_ROLE_POWER (ROLE_ID, POWER_ID)
+    values (#{roleId,jdbcType=INTEGER}, #{powerId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ltkj.template.model.RolePowerKey">
+    insert into SYS_ROLE_POWER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="powerId != null">
+        POWER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="powerId != null">
+        #{powerId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -15,6 +15,8 @@ import com.ltkj.template.dbconfig.DynamicDataSourceTransaction;
 public class SpringManagedTransactionFactory implements TransactionFactory {
 	@Override
 	public Transaction newTransaction(DataSource dataSource, TransactionIsolationLevel level, boolean autoCommit) {
+		System.err.println(DynamicDataSourceContextHolder.getAutoCommit());
+		System.err.println(DynamicDataSourceContextHolder.getDataSourceConnection());
 		if (DynamicDataSourceContextHolder.getAutoCommit()) {
 			return new SpringManagedTransaction(dataSource);
 		} else {

@@ -10,7 +10,7 @@ import com.ltkj.template.mapper.UserManMapper;
 import com.ltkj.template.model.User;
 
 @Service
-public class UserService {
+public class UserManService {
 	@Autowired
 	private UserManMapper userMapper;
 

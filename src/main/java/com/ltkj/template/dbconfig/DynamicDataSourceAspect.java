@@ -45,7 +45,6 @@ public class DynamicDataSourceAspect {
 	@Before("controllerAspect()")
 	public void changeDataSource(JoinPoint point) {
 		String dataSourceConnection = (String) point.getArgs()[0];
-
 		if (!DynamicDataSourceContextHolder.containsDataSource(dataSourceConnection)) {
 			dynamicLoadBean.registBean(dataSourceConnection);
 		}
@@ -60,18 +59,18 @@ public class DynamicDataSourceAspect {
 
 	@Before("tansationalExtendAspect()")
 	public void beforeTansationalExtendAspect(JoinPoint point) {
-		DynamicDataSourceContextHolder.stopAutoCommit();
+		// DynamicDataSourceContextHolder.stopAutoCommit();
 	}
 
 	@AfterReturning("tansationalExtendAspect()")
 	public void afterTansationalExtendAspect(JoinPoint point) {
-		DynamicDataSourceContextHolder.clearDataSourceConnection();
-		DynamicDataSourceContextHolder.commit();
+		// DynamicDataSourceContextHolder.clearDataSourceConnection();
+		// DynamicDataSourceContextHolder.commit();
 	}
 
 	@AfterThrowing(pointcut = "tansationalExtendAspect()", throwing = "e")
 	public void throwException(JoinPoint point, Throwable e) {
-		DynamicDataSourceContextHolder.rollback();
+		// DynamicDataSourceContextHolder.rollback();
 		System.err.println("目标方法中抛出的异常:" + e);
 		System.err.println("模拟抛出异常后的增强处理...");
 	}

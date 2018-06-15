@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ltkj.template.model.User;
-import com.ltkj.template.service.UserService;
+import com.ltkj.template.service.UserManService;
 import com.ltkj.template.utility.RestGenerator;
 import com.ltkj.template.utility.RestResponse;
 
@@ -22,12 +22,12 @@ import com.ltkj.template.utility.RestResponse;
 @PreAuthorize("hasRole('USER')")
 public class UserController {
     @Autowired
-    private UserService userService;
+	private UserManService userManService;
     
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
     public RestResponse<?> getUserInfo(@RequestBody User user) {
-    	User users = userService.getUserInfo(user);
+    	User users = userManService.getUserInfo(user);
     	
         return RestGenerator.successResult(users, "success");
     }

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.ltkj.template.dbconfig.DynamicDataSourceRegister;
 import com.ltkj.template.dbconfig.DynamicLoadBean;
-import com.ltkj.template.service.transactionalService.UserServiceTran;
 
 @EnableTransactionManagement
 @Import({ DynamicDataSourceRegister.class })
@@ -21,8 +20,6 @@ import com.ltkj.template.service.transactionalService.UserServiceTran;
 public class SecyrityJwtTempApplicationTests {
 	@Autowired
 	DynamicLoadBean dynamicBeanLoad;
-	@Autowired
-	UserServiceTran userServiceTran;
 
 	@Test
 	public void run() throws Exception {
@@ -33,22 +30,6 @@ public class SecyrityJwtTempApplicationTests {
 	private void insert() {
 		String ds = "{\"driverClassName\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\", \"type\": \"com.alibaba.druid.pool.DruidDataSource\","
 				+ "\"url\":\"jdbc:sqlserver://127.0.0.1:1433;DatabaseName=user_db2\",\"username\":\"root2\", \"password\":\"root2\"}";
-
-		try {
-			userServiceTran.insertTranExtend(ds);
-		} catch (Exception e) {
-		}
-
-		try {
-			userServiceTran.insertTranExtendWithoutError(ds);
-		} catch (Exception e) {
-		}
-
-		try {
-			userServiceTran.insertWithoutTranExtend(ds);
-		} catch (Exception e) {
-		}
-
 	}
 
 	// @Transactional

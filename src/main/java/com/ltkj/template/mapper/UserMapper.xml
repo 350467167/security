@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltkj.template.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.ltkj.template.model.User">
+    <id column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="USER_CODE" jdbcType="VARCHAR" property="userCode" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="USER_DEPARTMENT" jdbcType="VARCHAR" property="userDepartment" />
+    <result column="USER_DUTY" jdbcType="VARCHAR" property="userDuty" />
+    <result column="USER_STATE" jdbcType="INTEGER" property="userState" />
+    <result column="USER_RELATION" jdbcType="VARCHAR" property="userRelation" />
+    <result column="USER_LOGIN_NAME" jdbcType="VARCHAR" property="userLoginName" />
+    <result column="USER_LOGIN_PASS" jdbcType="VARCHAR" property="userLoginPass" />
+    <result column="USER_REMARK" jdbcType="VARCHAR" property="userRemark" />
+    <result column="USER_TYPE" jdbcType="INTEGER" property="userType" />
+    <result column="USER_VALUE" jdbcType="INTEGER" property="userValue" />
+    <result column="USER_STATION_ID" jdbcType="INTEGER" property="userStationId" />
+    <result column="USER_PHOTO_ID" jdbcType="INTEGER" property="userPhotoId" />
+    <result column="COMPANY_ID" jdbcType="INTEGER" property="companyId" />
+    <result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+    <result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+    <result column="USER_MOBILE_PHONE" jdbcType="VARCHAR" property="userMobilePhone" />
+    <result column="USER_SEX" jdbcType="INTEGER" property="userSex" />
+    <result column="USER_INSPECT_FLAG" jdbcType="VARCHAR" property="userInspectFlag" />
+    <result column="USER_BEGIN_DATE" jdbcType="TIMESTAMP" property="userBeginDate" />
+    <result column="USER_END_DATE" jdbcType="TIMESTAMP" property="userEndDate" />
+    <result column="USER_VISIBLE_FLAG" jdbcType="INTEGER" property="userVisibleFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    USER_ID, USER_CODE, USER_NAME, USER_DEPARTMENT, USER_DUTY, USER_STATE, USER_RELATION, 
+    USER_LOGIN_NAME, USER_LOGIN_PASS, USER_REMARK, USER_TYPE, USER_VALUE, USER_STATION_ID, 
+    USER_PHOTO_ID, COMPANY_ID, USER_EMAIL, USER_PHONE, USER_MOBILE_PHONE, USER_SEX, USER_INSPECT_FLAG, 
+    USER_BEGIN_DATE, USER_END_DATE, USER_VISIBLE_FLAG
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_USER
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from SYS_USER
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ltkj.template.model.User">
+    insert into SYS_USER (USER_ID, USER_CODE, USER_NAME, 
+      USER_DEPARTMENT, USER_DUTY, USER_STATE, 
+      USER_RELATION, USER_LOGIN_NAME, USER_LOGIN_PASS, 
+      USER_REMARK, USER_TYPE, USER_VALUE, 
+      USER_STATION_ID, USER_PHOTO_ID, COMPANY_ID, 
+      USER_EMAIL, USER_PHONE, USER_MOBILE_PHONE, 
+      USER_SEX, USER_INSPECT_FLAG, USER_BEGIN_DATE, 
+      USER_END_DATE, USER_VISIBLE_FLAG)
+    values (#{userId,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userDepartment,jdbcType=VARCHAR}, #{userDuty,jdbcType=VARCHAR}, #{userState,jdbcType=INTEGER}, 
+      #{userRelation,jdbcType=VARCHAR}, #{userLoginName,jdbcType=VARCHAR}, #{userLoginPass,jdbcType=VARCHAR}, 
+      #{userRemark,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{userValue,jdbcType=INTEGER}, 
+      #{userStationId,jdbcType=INTEGER}, #{userPhotoId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
+      #{userEmail,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{userMobilePhone,jdbcType=VARCHAR}, 
+      #{userSex,jdbcType=INTEGER}, #{userInspectFlag,jdbcType=VARCHAR}, #{userBeginDate,jdbcType=TIMESTAMP}, 
+      #{userEndDate,jdbcType=TIMESTAMP}, #{userVisibleFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ltkj.template.model.User">
+    insert into SYS_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="userCode != null">
+        USER_CODE,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="userDepartment != null">
+        USER_DEPARTMENT,
+      </if>
+      <if test="userDuty != null">
+        USER_DUTY,
+      </if>
+      <if test="userState != null">
+        USER_STATE,
+      </if>
+      <if test="userRelation != null">
+        USER_RELATION,
+      </if>
+      <if test="userLoginName != null">
+        USER_LOGIN_NAME,
+      </if>
+      <if test="userLoginPass != null">
+        USER_LOGIN_PASS,
+      </if>
+      <if test="userRemark != null">
+        USER_REMARK,
+      </if>
+      <if test="userType != null">
+        USER_TYPE,
+      </if>
+      <if test="userValue != null">
+        USER_VALUE,
+      </if>
+      <if test="userStationId != null">
+        USER_STATION_ID,
+      </if>
+      <if test="userPhotoId != null">
+        USER_PHOTO_ID,
+      </if>
+      <if test="companyId != null">
+        COMPANY_ID,
+      </if>
+      <if test="userEmail != null">
+        USER_EMAIL,
+      </if>
+      <if test="userPhone != null">
+        USER_PHONE,
+      </if>
+      <if test="userMobilePhone != null">
+        USER_MOBILE_PHONE,
+      </if>
+      <if test="userSex != null">
+        USER_SEX,
+      </if>
+      <if test="userInspectFlag != null">
+        USER_INSPECT_FLAG,
+      </if>
+      <if test="userBeginDate != null">
+        USER_BEGIN_DATE,
+      </if>
+      <if test="userEndDate != null">
+        USER_END_DATE,
+      </if>
+      <if test="userVisibleFlag != null">
+        USER_VISIBLE_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null">
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userDepartment != null">
+        #{userDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="userDuty != null">
+        #{userDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="userState != null">
+        #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userRelation != null">
+        #{userRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginName != null">
+        #{userLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginPass != null">
+        #{userLoginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="userRemark != null">
+        #{userRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userValue != null">
+        #{userValue,jdbcType=INTEGER},
+      </if>
+      <if test="userStationId != null">
+        #{userStationId,jdbcType=INTEGER},
+      </if>
+      <if test="userPhotoId != null">
+        #{userPhotoId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobilePhone != null">
+        #{userMobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userInspectFlag != null">
+        #{userInspectFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="userBeginDate != null">
+        #{userBeginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEndDate != null">
+        #{userEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userVisibleFlag != null">
+        #{userVisibleFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ltkj.template.model.User">
+    update SYS_USER
+    <set>
+      <if test="userCode != null">
+        USER_CODE = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userDepartment != null">
+        USER_DEPARTMENT = #{userDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="userDuty != null">
+        USER_DUTY = #{userDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="userState != null">
+        USER_STATE = #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userRelation != null">
+        USER_RELATION = #{userRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginName != null">
+        USER_LOGIN_NAME = #{userLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginPass != null">
+        USER_LOGIN_PASS = #{userLoginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="userRemark != null">
+        USER_REMARK = #{userRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        USER_TYPE = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userValue != null">
+        USER_VALUE = #{userValue,jdbcType=INTEGER},
+      </if>
+      <if test="userStationId != null">
+        USER_STATION_ID = #{userStationId,jdbcType=INTEGER},
+      </if>
+      <if test="userPhotoId != null">
+        USER_PHOTO_ID = #{userPhotoId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        COMPANY_ID = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null">
+        USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobilePhone != null">
+        USER_MOBILE_PHONE = #{userMobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        USER_SEX = #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="userInspectFlag != null">
+        USER_INSPECT_FLAG = #{userInspectFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="userBeginDate != null">
+        USER_BEGIN_DATE = #{userBeginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEndDate != null">
+        USER_END_DATE = #{userEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userVisibleFlag != null">
+        USER_VISIBLE_FLAG = #{userVisibleFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ltkj.template.model.User">
+    update SYS_USER
+    set USER_CODE = #{userCode,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      USER_DEPARTMENT = #{userDepartment,jdbcType=VARCHAR},
+      USER_DUTY = #{userDuty,jdbcType=VARCHAR},
+      USER_STATE = #{userState,jdbcType=INTEGER},
+      USER_RELATION = #{userRelation,jdbcType=VARCHAR},
+      USER_LOGIN_NAME = #{userLoginName,jdbcType=VARCHAR},
+      USER_LOGIN_PASS = #{userLoginPass,jdbcType=VARCHAR},
+      USER_REMARK = #{userRemark,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=INTEGER},
+      USER_VALUE = #{userValue,jdbcType=INTEGER},
+      USER_STATION_ID = #{userStationId,jdbcType=INTEGER},
+      USER_PHOTO_ID = #{userPhotoId,jdbcType=INTEGER},
+      COMPANY_ID = #{companyId,jdbcType=INTEGER},
+      USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+      USER_MOBILE_PHONE = #{userMobilePhone,jdbcType=VARCHAR},
+      USER_SEX = #{userSex,jdbcType=INTEGER},
+      USER_INSPECT_FLAG = #{userInspectFlag,jdbcType=VARCHAR},
+      USER_BEGIN_DATE = #{userBeginDate,jdbcType=TIMESTAMP},
+      USER_END_DATE = #{userEndDate,jdbcType=TIMESTAMP},
+      USER_VISIBLE_FLAG = #{userVisibleFlag,jdbcType=INTEGER}
+    where USER_ID = #{userId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectUserList" parameterType="com.ltkj.template.model.User" resultMap="BaseResultMap">
+  	SELECT
+		TOP ${pageSize}
+		<include refid="Base_Column_List" />
+	FROM
+		(
+			SELECT
+				row_number () OVER (ORDER BY user_id) AS rownumber,
+				*
+			FROM
+				SYS_USER
+		) AS o
+	WHERE
+		o.rownumber > #{beginIndex};
+  </select>
+  <select id="selectUserListCount" resultType="java.lang.Integer">
+  	SELECT
+		COUNT (*)
+	FROM
+		SYS_USER
+  </select>
+</mapper>

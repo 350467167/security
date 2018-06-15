@@ -18,7 +18,7 @@ public final class JwtUserFactory {
     }
 
     public static JwtUser create(User user,List<String> roles) {
-        return new JwtUser(
+    	return new JwtUser(
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
@@ -26,6 +26,14 @@ public final class JwtUserFactory {
                 mapToGrantedAuthorities(roles),
                 user.getLastPasswordResetDate()
         );
+//        return new JwtUser(
+//                user.getId(),
+//                user.getUsername(),
+//                user.getPassword(),
+//                user.getEmail(),
+//                mapToGrantedAuthorities(roles),
+//                user.getLastPasswordResetDate()
+//        );
     }
 
     private static List<GrantedAuthority> mapToGrantedAuthorities(List<String> authorities) {

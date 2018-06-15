@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 public class DynamicDataSourceContextHolder {
 	public static List<String> dataSourceConnections = new ArrayList<String>();
 
-	private static final ThreadLocal<Boolean> autoCommit = new ThreadLocal<Boolean>();
-	private static final ThreadLocal<String> contextHolder = new ThreadLocal<String>();
-	private static final ThreadLocal<DynamicDataSourceTransaction> dynamicDataSourceTransaction = new ThreadLocal<DynamicDataSourceTransaction>();
+	private static ThreadLocal<Boolean> autoCommit = new InheritableThreadLocal<Boolean>();
+	private static ThreadLocal<String> contextHolder = new InheritableThreadLocal<String>();
+	private static ThreadLocal<DynamicDataSourceTransaction> dynamicDataSourceTransaction = new InheritableThreadLocal<>();
 
 	public static void setDataSourceConnection(String dataSourceConnection) {
 		contextHolder.set(dataSourceConnection);
@@ -20,6 +20,7 @@ public class DynamicDataSourceContextHolder {
 
 	public static String getDataSourceConnection() {
 		if (contextHolder.get() == null) {
+			System.err.println("xxx");
 			contextHolder.set("dataSource");
 		}
 		return contextHolder.get();
@@ -47,10 +48,14 @@ public class DynamicDataSourceContextHolder {
 	}
 
 	public static void stopAutoCommit() {
+		Thread t = Thread.currentThread();
+		System.err.println(t);
 		autoCommit.set(false);
 	}
 
 	public static Boolean getAutoCommit() {
+		Thread t = Thread.currentThread();
+		System.err.println(t);
 		if (autoCommit.get() == null) {
 			autoCommit.set(true);
 		}
@@ -62,6 +67,7 @@ public class DynamicDataSourceContextHolder {
 	}
 
 	public static void commit() {
+		System.err.println("commit" + getAutoCommit());
 		DynamicDataSourceTransaction transaction = getDynamicDataSourceTransaction();
 		try {
 			transaction.commitAll();
@@ -69,11 +75,12 @@ public class DynamicDataSourceContextHolder {
 			cleanDynamicDataSourceTransaction();
 			cleanAutoCommit();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 	}
 
 	public static void rollback() {
+		System.err.println("rollback" + getAutoCommit());
 		DynamicDataSourceTransaction transaction = getDynamicDataSourceTransaction();
 		try {
 			transaction.rollbackAll();
@@ -81,7 +88,7 @@ public class DynamicDataSourceContextHolder {
 			cleanDynamicDataSourceTransaction();
 			cleanAutoCommit();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 	}
 }
